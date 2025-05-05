@@ -1,0 +1,105 @@
+local Rayfield = loadstring(game:HttpGet("http://raw.githubusercontent.com/YourGitHubUser/YourRepo/main/rayfield.lua"))()
+
+local Player = game.Players.LocalPlayer
+local Char = Player.Character or Player.CharacterAdded:Wait()
+local Humanoid = Char:WaitForChild("Humanoid")
+
+-- Default values
+local defaultSpeed = 16
+local defaultJump = 50
+local defaultGravity = 198
+
+local speed = defaultSpeed
+local jump = defaultJump
+local gravity = defaultGravity
+
+-- UI Setup
+local Window = Rayfield:CreateWindow({
+    Name = "Player Tweaks",
+    LoadingTitle = "Player Control UI",
+    LoadingSubtitle = "by Robb3u-Main | Cutemanhahaugg",
+    ConfigurationSaving = {
+        Enabled = false
+    },
+    Discord = {
+        Enabled = false
+    },
+    KeySystem = false,
+})
+
+local playerTab = Window:CreateTab("Player", 4483362458)
+local infoTab = Window:CreateTab("Info", 4483362458)
+
+-- Inputs
+playerTab:CreateInput({
+   Name = "WalkSpeed",
+   PlaceholderText = "16",
+   RemoveTextAfterFocusLost = true,
+   Callback = function(Value)
+       speed = tonumber(Value) or defaultSpeed
+       Humanoid.WalkSpeed = speed
+   end
+})
+
+playerTab:CreateInput({
+   Name = "JumpPower",
+   PlaceholderText = "50",
+   RemoveTextAfterFocusLost = true,
+   Callback = function(Value)
+       jump = tonumber(Value) or defaultJump
+       Humanoid.JumpPower = jump
+   end
+})
+
+playerTab:CreateInput({
+   Name = "Gravity",
+   PlaceholderText = "198",
+   RemoveTextAfterFocusLost = true,
+   Callback = function(Value)
+       gravity = tonumber(Value) or defaultGravity
+       game.Workspace.Gravity = gravity
+   end
+})
+
+infoTab:CreateParagraph({
+    Title = "Made By",
+    Content = "Robb3u-Main | Cutemanhahaugg"
+})
+
+-- Respawn handler
+Player.CharacterAdded:Connect(function(char)
+    local hum = char:WaitForChild("Humanoid")
+    hum.WalkSpeed = speed
+    hum.JumpPower = jump
+    game.Workspace.Gravity = gravity
+
+    hum:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+        if hum.WalkSpeed ~= speed then
+            hum.WalkSpeed = speed
+        end
+    end)
+
+    hum:GetPropertyChangedSignal("JumpPower"):Connect(function()
+        if hum.JumpPower ~= jump then
+            hum.JumpPower = jump
+        end
+    end)
+end)
+
+-- Initial apply
+Humanoid.WalkSpeed = speed
+Humanoid.JumpPower = jump
+game.Workspace.Gravity = gravity
+
+-- Anti tamper
+Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+    if Humanoid.WalkSpeed ~= speed then
+        Humanoid.WalkSpeed = speed
+    end
+end)
+
+Humanoid:GetPropertyChangedSignal("JumpPower"):Connect(function()
+    if Humanoid.JumpPower ~= jump then
+        Humanoid.JumpPower = jump
+    end
+end)
