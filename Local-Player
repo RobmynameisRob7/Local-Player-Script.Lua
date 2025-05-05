@@ -1,4 +1,4 @@
-local Rayfield = loadstring(game:HttpGet("http://raw.githubusercontent.com/YourGitHubUser/YourRepo/main/rayfield.lua"))()
+local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/RobmynameisRob7/Local-Player-Script.Lua/refs/heads/main/Local-Player"))()
 
 local Player = game.Players.LocalPlayer
 local Char = Player.Character or Player.CharacterAdded:Wait()
